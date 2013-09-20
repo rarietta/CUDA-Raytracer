@@ -1,21 +1,49 @@
 -------------------------------------------------------------------------------
-CIS565: Project 1: CUDA Raytracer
--------------------------------------------------------------------------------
+->Ricky Arietta
+Project 1: CUDA Raytracer
+CIS565: GPU Programming and Architecture
 Fall 2013
--------------------------------------------------------------------------------
-Due Thursday, 09/19/2013
+University of Pennsylvania<-
 -------------------------------------------------------------------------------
 
 ![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/006_final.bmp)
+
+-------------------------------------------------------------------------------
+Initial Ray Casting From Camera & Geometry Intersection
+-------------------------------------------------------------------------------
 ![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/001_flat_shading.bmp)
+
+-------------------------------------------------------------------------------
+Addition of Basic Diffuse Shading with Point Lighting
+-------------------------------------------------------------------------------
 ![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/002_diffuse_illumination.bmp)
+
+-------------------------------------------------------------------------------
+Addition of Hard Shadows with Point Lighting
+-------------------------------------------------------------------------------
 ![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/003_diffuse_illumination_with_hard_shadows.bmp)
+
+-------------------------------------------------------------------------------
+Addition of Soft Shadows with Area Lighting
+-------------------------------------------------------------------------------
 ![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/004_diffuse_illumination_with_soft_shadows.bmp)
+
+-------------------------------------------------------------------------------
+Addition of Phong Illumination and Reflective Ray Tracing
+-------------------------------------------------------------------------------
 ![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/005_phong_illumination_with_soft_shadows_and_reflections.bmp)
+
+-------------------------------------------------------------------------------
+Addition of Supersampled AntiAliasing
+-------------------------------------------------------------------------------
 ![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/005_phong_illumination_with_soft_shadows_and_reflections_and_supersampled_antialiasing.bmp)
 
+-------------------------------------------------------------------------------
+PERFORMANCE EVALUATION
+-------------------------------------------------------------------------------
 ![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/block_data_chart.bmp)
 ![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/block_data_graph.bmp)
+
 -------------------------------------------------------------------------------
 BASE CODE TOUR:
 -------------------------------------------------------------------------------
