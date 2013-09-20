@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
-Ricky Arietta
-Project 1: CUDA Raytracer
-CIS565: GPU Programming and Architecture
-Fall 2013
+Ricky Arietta\n
+Project 1: CUDA Raytracer\n
+CIS565: GPU Programming and Architecture\n
+Fall 2013\n
 University of Pennsylvania
 -------------------------------------------------------------------------------
 
