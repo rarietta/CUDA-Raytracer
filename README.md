@@ -5,41 +5,89 @@ CIS565 Project 1: CUDA Raytracer
 Ricky Arietta Fall 2013
 -------------------------------------------------------------------------------
 
-![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/006_final.bmp)
+This project is a highly parallel version of the traditional ray tracing
+algorithm on the implemented on the GPU, augmented from a template provided by
+Karl Yi and Liam Boone. It works by casting out virtual rays through an image plane 
+from a user-defined camera and assigning pixel values based on intersections 
+with the defined geometry and lights. The final implementation, when built, 
+is capable of rendering high-quality images composed of physically realistic 
+area light(s) and geometry primitives (spheres, cubes). An example of a final
+render can be seen immediately below this description. As you can see, the final
+implementation accounts for Phong Illumination, soft shadows from area lights,
+recursive reflections of light within the scene, and supersampled antialiasing. The
+implementation of each feature is described briefly below with a rendered image
+demonstrating the development of the code. Finally, there is some performance
+analysis included regarding the size and number of blocks requested on the GPU
+during runtime.
+
+![Final Rendered Image](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/006_final.bmp)
+
+(A brief tour of the base code and a description of the scene file format
+used during implementation are also included at the end of this file, adapted
+from the project description provided by Patrick Cozzi and Liam Boone.)
 
 -------------------------------------------------------------------------------
-Initial Ray Casting From Camera & Geometry Intersection
+Initial Ray Casting From Camera & Geometry Primitive Intersection
 -------------------------------------------------------------------------------
+
+
+
 ![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/001_flat_shading.bmp)
 
 -------------------------------------------------------------------------------
 Addition of Basic Diffuse Shading with Point Lighting
 -------------------------------------------------------------------------------
+
+
+
 ![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/002_diffuse_illumination.bmp)
 
 -------------------------------------------------------------------------------
 Addition of Hard Shadows with Point Lighting
 -------------------------------------------------------------------------------
+
+
+
 ![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/003_diffuse_illumination_with_hard_shadows.bmp)
 
 -------------------------------------------------------------------------------
 Addition of Soft Shadows with Area Lighting
 -------------------------------------------------------------------------------
+
+
+
 ![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/004_diffuse_illumination_with_soft_shadows.bmp)
 
 -------------------------------------------------------------------------------
 Addition of Phong Illumination and Reflective Ray Tracing
 -------------------------------------------------------------------------------
+
+
+
 ![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/005_phong_illumination_with_soft_shadows_and_reflections.bmp)
 
 -------------------------------------------------------------------------------
 Addition of Supersampled AntiAliasing
 -------------------------------------------------------------------------------
+
+
+
 ![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/005_phong_illumination_with_soft_shadows_and_reflections_and_supersampled_antialiasing.bmp)
 
 -------------------------------------------------------------------------------
 PERFORMANCE EVALUATION
 -------------------------------------------------------------------------------
+
+To analyze the performance of the program on the GPU hardware, I decided to run
+timing tests on the renders with varying block sizes/counts. To do this, I altered
+the tile size within the rendered image, increasing or decreasing the block size
+and count when invoking the kernel.
+
+*Caveat*: Unfortunately, the following block sizes were the only ones that the hardware in
+the Moore 100 Lab could handle. I intended to test the code with more tile sizes
+in [1,20], but they all caused the hardware to crash. The following data shows
+certain trends but lacks the completeness I would have desired.
+
 ![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/block_data_chart.bmp)
 ![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/block_data_graph.bmp)
 
