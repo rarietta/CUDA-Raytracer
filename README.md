@@ -122,7 +122,28 @@ source casting light rays in multiple directions towards/around the geometry.
 Addition of Phong Illumination and Reflective Ray Tracing
 -------------------------------------------------------------------------------
 
+In addition to the Diffuse Lambertian lighting model, Phong illumination was
+implemented. Thus, the Lambertian term is summed with a specular term, defined
+by the specular RGB value of the material, the angle of specular reflection,
+and the specular exponent. This implementation also accounted for linear
+attenuation of the light sources. Thus, the light's influence on the luminance
+value was scaled inversely with the distance from the light source. *(Since no
+linear attenuation coefficient was provided in the scene file format used in 
+this project, I performed this operation with an arbitrarily chosen constant
+that was equal for all light sources and seemed to produce an aesthetically
+pleasing final result).*
 
+Additionally, recursive specular ray tracing was implemented, which mimics
+the behavior of real, specular, reflective surfaces. While this is traditionally
+done recursively in ray tracing, CUDA does not support recursive function calls.
+Thus, a color value was stored and for each intersection, if the material was
+reflective, a secondary ray was traced out and the secondary luminance was added
+to the first color value, scaled by the specular coefficient of the material.
+This was implemented in a for-loop, performed a number of times equal to the
+specified traceDepth of the program.
+
+The below image is an example of both specular Phong model (including linear
+attenuation of the light sources) and specular reflection with a traceDepth of 2.
 
 ![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/005_phong_illumination_with_soft_shadows_and_reflections.bmp)
 
