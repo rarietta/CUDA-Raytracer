@@ -42,6 +42,7 @@ int scene::loadObject(string objectid){
     }else{
         cout << "Loading Object " << id << "..." << endl;
         geom newObject;
+		newObject.objectid = id;
         string line;
         
         //load object type 
@@ -135,8 +136,8 @@ int scene::loadObject(string objectid){
 }
 
 int scene::loadCamera(){
-	cout << "Loading Camera ..." << endl;
-        camera newCamera;
+	printf("Loading Camera ...\n");
+	camera newCamera;
 	float fovy;
 	
 	//load static properties
@@ -162,6 +163,7 @@ int scene::loadCamera(){
 	vector<glm::vec3> positions;
 	vector<glm::vec3> views;
 	vector<glm::vec3> ups;
+
     while (!line.empty() && fp_in.good()){
 	    
 	    //check frame number

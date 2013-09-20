@@ -20,6 +20,7 @@ struct ray {
 
 struct geom {
 	enum GEOMTYPE type;
+	int objectid;
 	int materialid;
 	int frames;
 	glm::vec3* translations;
@@ -31,6 +32,7 @@ struct geom {
 
 struct staticGeom {
 	enum GEOMTYPE type;
+	int objectid;
 	int materialid;
 	glm::vec3 translation;
 	glm::vec3 rotation;
