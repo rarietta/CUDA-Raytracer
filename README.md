@@ -30,7 +30,31 @@ from the project description provided by Patrick Cozzi and Liam Boone.)
 Initial Ray Casting From Camera & Geometry Primitive Intersection
 -------------------------------------------------------------------------------
 
+In order to render images using ray tracing, we needed to define the set of rays
+being sent out from the camera. The camera, defined by the user input file,
+includes a resolution, field of view angle, viewing direction, up direction, etc.
+Using this information, I was able to define an arbitrary image plane some distance
+from the camera, orthogonal to the viewing direction vector. Then, using the 
+up direction and a computed third orthogonal "right" vector, I was able to
+define a grid on the image plane with the same resolution as the desired image.
+Then, from the camera, and given an x-index and y-index for the pixel in question,
+I could compute a single ray from the camera position to the center of the corresponding
+pixel in the image plane (adapted for supersampled antialiasing; see below). These
+rays served as the initial rays for tracing paths through the scene.
 
+Additionally, when following these rays, I needed to be able to determine any
+geometry intersections along the ray direction vector, since these intersections
+define the illumination color value returned to the image pixel. Thus, in addition
+to the provided sphereIntersectionTest(), I created a boxIntersectionTest() for
+computing ray collisions with cube primitives. This tested for an intersection with
+the plane defined by each face, tested it against the size of the cube to see if
+the intersection was bounded by the edges, and returned the minimum-distance intersection
+from this set.
+
+A very early render is seen below, proving the successful implementation of ray-casting
+and primitive intersection into a multi-colored Cornell box with 3 spheres of. This
+render only displays raycasting and intersection, and thus no lighting model was implemented.
+All the surfaces are rendered according to their flat diffuse RGB color value.  
 
 ![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/001_flat_shading.bmp)
 
