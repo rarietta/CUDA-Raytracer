@@ -94,10 +94,28 @@ Addition of Phong Illumination and Reflective Ray Tracing
 Addition of Supersampled AntiAliasing
 -------------------------------------------------------------------------------
 
+With the existing code base described up to this point, it was easy to implement
+antialiasing by supersampling the pixel values. Instead of casting the same ray
+through the center of the pixel with each iteration, the direction of the ray
+within the bounds of the pixel were determined randomly in each iteration, and
+the computed intersection illumination values were averaged over the entire series
+of iterations (much like the implementation of area lighting).
 
+Compare the following image to the image in the previous section. All input
+and scene data was identical between the two, except this version included
+supersampling of the pixels. You can see how smooth the edges are on the spheres
+and cubes in this version. While there are clear "jaggies" in the above version,
+the below version has none and even corrects for tricky edge intersection
+cases in the corners of the box. 
 
 ![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/005_phong_illumination_with_soft_shadows_and_reflections_and_supersampled_antialiasing.bmp)
 
+This implementation is clearly superior. The random sampling of the pixels does,
+however, make it impossible to store the first level intersections in a spatial
+data structure for easy lookup in each iteration, which may be a technique for
+accelerating the ray tracing runtime. However, this is a tradeoff for vastly
+superior image quality, and I believe an important addition to the code.
+ 
 -------------------------------------------------------------------------------
 PERFORMANCE EVALUATION
 -------------------------------------------------------------------------------
