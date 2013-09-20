@@ -6,74 +6,14 @@ Fall 2013
 Due Thursday, 09/19/2013
 -------------------------------------------------------------------------------
 
+![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/006_final.bmp)
 ![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/001_flat_shading.bmp)
+![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/002_diffuse_illumination.bmp)
+![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/003_diffuse_illumination_with_hard_shadows.bmp)
+![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/004_diffuse_illumination_with_soft_shadows.bmp)
+![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/005_phong_illumination_with_soft_shadows_and_reflections.bmp)
+![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/005_phong_illumination_with_soft_shadows_and_reflections_and_supersampled_antialiasing.bmp)
 
-
--------------------------------------------------------------------------------
-NOTE:
--------------------------------------------------------------------------------
-This project requires an NVIDIA graphics card with CUDA capability! Any card
-after the Geforce 8xxx series will work. If you do not have an NVIDIA graphics
-card in the machine you are working on, feel free to use any machine in the SIG
-Lab or in Moore100 labs. All machines in the SIG Lab and Moore100 are equipped
-with CUDA capable NVIDIA graphics cards. If this too proves to be a problem,
-please contact Patrick or Liam as soon as possible.
-
--------------------------------------------------------------------------------
-INTRODUCTION:
--------------------------------------------------------------------------------
-In this project, you will implement a CUDA based raytracer capable of
-generating raytraced rendered images extremely quickly. For those of you who
-have taken CIS460/560, building a raytracer should not be anything new to you
-from a conceptual point of you. For those of you that have not taken
-CIS460/560, raytracing is a technique for generating images by tracing rays of
-light through pixels in an image plane out into a scene and following the way
-the rays of light bounce and interact with objects in the scene. More
-information can be found here:
-http://en.wikipedia.org/wiki/Ray_tracing_(graphics).
-
-The ultimate purpose of this project is to serve as the foundation for your
-next project: a full CUDA based global illumination pathtracer. Raytracing can
-be thought of as a way to generate an isolated version of the direct light
-contribution in a global illumination scenario.
-
-Since in this class we are concerned with working in generating actual images
-and less so with mundane tasks like file I/O, this project includes basecode
-for loading a scene description file format, described below, and various other
-things that generally make up the render "harness" that takes care of
-everything up to the rendering itself. The core renderer is left for you to
-implement.  Finally, note that while this basecode is meant to serve as a
-strong starting point for a CUDA raytracer, you are not required to use this
-basecode if you wish, and you may also change any part of the basecode
-specification as you please, so long as the final rendered result is correct.
-
--------------------------------------------------------------------------------
-CONTENTS:
--------------------------------------------------------------------------------
-The Project1 root directory contains the following subdirectories:
-	
-* src/ contains the source code for the project. Both the Windows Visual Studio
-  solution and the OSX and Linux makefiles reference this folder for all 
-  source; the base source code compiles on Linux, OSX and Windows without 
-  modification.
-* scenes/ contains an example scene description file.
-* renders/ contains an example render of the given example scene file. 
-* PROJ1_WIN/ contains a Windows Visual Studio 2010 project and all dependencies
-  needed for building and running on Windows 7.
-* PROJ1_OSX/ contains a OSX makefile, run script, and all dependencies needed
-  for building and running on Mac OSX 10.8. 
-* PROJ1_NIX/ contains a Linux makefile for building and running on Ubuntu 
-  12.04 LTS. Note that you will need to set the following environment
-  variables: 
-    
-  - PATH=$PATH:/usr/local/cuda-5.5/bin
-  - LD_LIBRARY_PATH=/usr/local/cuda-5.5/lib64:/lib
-
-  you may set these any way that you like. I added them to my .bashrc
-    
-
-The Windows and OSX versions of the project build and run exactly the same way
-as in Project0.
 
 -------------------------------------------------------------------------------
 REQUIREMENTS:
@@ -158,21 +98,6 @@ You will also want to familiarize yourself with:
 * sceneStructs.h, which contains definitions for how geometry, materials,
   lights, cameras, and animation frames are stored in the renderer. 
 * utilities.h, which serves as a kitchen-sink of useful functions
-
--------------------------------------------------------------------------------
-NOTES ON GLM:
--------------------------------------------------------------------------------
-This project uses GLM, the GL Math library, for linear algebra. You need to
-know two important points on how GLM is used in this project:
-
-* In this project, indices in GLM vectors (such as vec3, vec4), are accessed
-  via swizzling. So, instead of v[0], v.x is used, and instead of v[1], v.y is
-  used, and so on and so forth.
-* GLM Matrix operations work fine on NVIDIA Fermi cards and later, but
-  pre-Fermi cards do not play nice with GLM matrices. As such, in this project,
-  GLM matrices are replaced with a custom matrix struct, called a cudaMat4, found
-  in cudaMat4.h. A custom function for multiplying glm::vec4s and cudaMat4s is
-  provided as multiplyMV() in intersections.h.
 
 -------------------------------------------------------------------------------
 TAKUAscene FORMAT:
@@ -288,20 +213,6 @@ that could be considered bottlenecks and try to improve them.
 Each student should provide no more than a one page summary of their
 optimizations along with tables and or graphs to visually explain and
 performance differences.
-
--------------------------------------------------------------------------------
-THIRD PARTY CODE POLICY
--------------------------------------------------------------------------------
-* Use of any third-party code must be approved by asking on our Google Group.  
-  If it is approved, all students are welcome to use it.  Generally, we approve 
-  use of third-party code that is not a core part of the project.  For example, 
-  for the ray tracer, we would approve using a third-party library for loading 
-  models, but would not approve copying and pasting a CUDA function for doing 
-  refraction.
-* Third-party code must be credited in README.md.
-* Using third-party code without its approval, including using another
-  student's code, is an academic integrity violation, and will result in you
-  receiving an F for the semester.
 
 -------------------------------------------------------------------------------
 SELF-GRADING
