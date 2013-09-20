@@ -59,7 +59,7 @@ All the surfaces are rendered according to their flat diffuse RGB color value.
 ![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/001_flat_shading.bmp)
 
 -------------------------------------------------------------------------------
-Addition of Basic Diffuse Shading with Point Lighting
+Addition of Diffuse Lambertian Shading with Point Lighting
 -------------------------------------------------------------------------------
 
 
@@ -68,6 +68,25 @@ Addition of Basic Diffuse Shading with Point Lighting
 
 -------------------------------------------------------------------------------
 Addition of Hard Shadows with Point Lighting
+-------------------------------------------------------------------------------
+
+This addition was one of the first steps in generating shadows within the scene and
+imitating the behavior of light. I initially treated each light source as a simple
+point light. Thus, for every intersection with the scene from a camera ray, a secondary
+shadow ray or shadow feeler was cast in the direction of the constant point light
+source. If this ray intersected any other geometry before reaching the light source,
+it was considered in shadow and the luminance value of the pixel was set to zero
+(black). If it did not intersect any additional geometry, then the light source
+had a direct path to the point and the luminance was calculated in the normal fashion.
+
+An example of this point light/hard shadow model is included below. As you can see
+in the next section, this model was quickly adapted to account for geometric area lights
+and soft shadows, but this image is a good indicator of the progression of the code.
+
+![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/003_diffuse_illumination_with_hard_shadows.bmp)
+
+-------------------------------------------------------------------------------
+Addition of Soft Shadows with Area Lighting
 -------------------------------------------------------------------------------
 
 To adapt the illumination model to account for soft shadows and area lights,
@@ -85,14 +104,6 @@ or one.
 A rendered image with soft shadows is seen below. You can see that this result
 is much more physically based and realistic, accounting for the physical light
 source casting light rays in multiple directions towards/around the geometry.
-
-![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/003_diffuse_illumination_with_hard_shadows.bmp)
-
--------------------------------------------------------------------------------
-Addition of Soft Shadows with Area Lighting
--------------------------------------------------------------------------------
-
-
 
 ![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/004_diffuse_illumination_with_soft_shadows.bmp)
 
@@ -167,6 +178,13 @@ The above data is visualized in a graph below, plotting the average render time 
 iteration for each tileSize for each traceDepth:
 
 ![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/block_data_graph.bmp)
+ 
+-------------------------------------------------------------------------------
+Runtime Video
+-------------------------------------------------------------------------------
+
+Unfortunately, since I was working in Moore 100, I was unable to download or
+utilize and screen capture video software for producing runtime videos.
 
 -------------------------------------------------------------------------------
 BASE CODE TOUR:
