@@ -62,7 +62,18 @@ All the surfaces are rendered according to their flat diffuse RGB color value.
 Addition of Diffuse Lambertian Shading with Point Lighting
 -------------------------------------------------------------------------------
 
+The earliest step in creating a lighting model within the ray tracer was to
+implement Lambertian Diffuse lighting for the geometry surfaces. This model of
+lighting follows Lambert's equations, which take into account the direction
+from the intersection to the light and the normal of the geometry at the
+intersection point. Thus, when the normal and the light are in the same direction,
+the luminance value is greatest. When they point in opposite directions, the
+light has no contribution to the pixel luminance at that point.
 
+An example of this diffuse lighting model is seen below. You can see that, compared
+to the flat shading model in which the white sources all blended together in the
+image plane, the geometry now has some semblance of volume and boundaries can be
+determined by the eye.
 
 ![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/002_diffuse_illumination.bmp)
 
