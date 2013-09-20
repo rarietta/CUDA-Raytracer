@@ -1,9 +1,9 @@
 -------------------------------------------------------------------------------
-->Ricky Arietta
+Ricky Arietta
 Project 1: CUDA Raytracer
 CIS565: GPU Programming and Architecture
 Fall 2013
-University of Pennsylvania<-
+University of Pennsylvania
 -------------------------------------------------------------------------------
 
 ![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/006_final.bmp)
