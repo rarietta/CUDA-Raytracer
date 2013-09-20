@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 CIS565 Project 1: CUDA Raytracer
 -------------------------------------------------------------------------------
--------------------------------------------------------------------------------
 Ricky Arietta Fall 2013
+-------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 
 This project is a highly parallel version of the traditional ray tracing
@@ -20,11 +20,11 @@ demonstrating the development of the code. Finally, there is some performance
 analysis included regarding the size and number of blocks requested on the GPU
 during runtime.
 
-![Final Rendered Image](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/006_final.bmp)
-
 (A brief tour of the base code and a description of the scene file format
 used during implementation are also included at the end of this file, adapted
 from the project description provided by Patrick Cozzi and Liam Boone.)
+
+![Final Rendered Image](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/006_final.bmp)
 
 -------------------------------------------------------------------------------
 Initial Ray Casting From Camera & Geometry Primitive Intersection
@@ -83,12 +83,33 @@ timing tests on the renders with varying block sizes/counts. To do this, I alter
 the tile size within the rendered image, increasing or decreasing the block size
 and count when invoking the kernel.
 
-*Caveat*: Unfortunately, the following block sizes were the only ones that the hardware in
+*Caveat*: Unfortunately, the hardware to which I had access provided certain limitations
+to my testing. The following block sizes were the only ones that the hardware in
 the Moore 100 Lab could handle. I intended to test the code with more tile sizes
-in [1,20], but they all caused the hardware to crash. The following data shows
-certain trends but lacks the completeness I would have desired.
+in [1,20], but they all caused the hardware to crash. Furthermore, I will
+add that my program seemed to run at a generally slower rate than the demonstrations
+provided in class, and I believe this was an artifact of the hardware as well. Regardless,
+the following data shows certain trends in hardware utilization, it just lacks the 
+completeness I would have desired. 
 
 ![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/block_data_chart.bmp)
+
+As you can see, a tile size of 8 when rendering these images seemed to be the most efficient.
+Increasing the tile size to 10 slowed down the iteration renders dramatically, indicating
+an inefficient utilization of GPU memory and processing power. Interestingly enough,
+doubling the size of the tile, while increasing the runtime, did not nearly have as much
+of a negative impact on the runtime as an increase in tile size from 8 to 10.
+
+We can also see that the runtime per iteration increases with an increase in the 
+traceDepth of the rays, or how many times the rays are recursively followed through
+a scene when calculating reflective contributions. This is to be expected, since more
+instructions and memory accesses are required for deeper paths. But we can see that
+the increase is not linear, having the greatest jump from traceDepth=1 (no reflection)
+to traceDepth=2.
+
+The above data is visualized in a graph below, plotting the average render time per
+iteration for each tileSize for each traceDepth:
+
 ![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/block_data_graph.bmp)
 
 -------------------------------------------------------------------------------
@@ -99,15 +120,9 @@ algorithm and image generation, are the following:
 
 * raytraceKernel.cu contains the core raytracing CUDA kernel. You will need to
   complete:
-    * cudaRaytraceCore() handles kernel launches and memory management; this
-      function already contains example code for launching kernels,
-      transferring geometry and cameras from the host to the device, and transferring
-      image buffers from the host to the device and back. You will have to complete
-      this function to support passing materials and lights to CUDA.
-    * raycastFromCameraKernel() is a function that you need to implement. This
-      function once correctly implemented should handle camera raycasting. 
-    * raytraceRay() is the core raytracing CUDA kernel; all of your raytracing
-      logic should be implemented in this CUDA kernel. raytraceRay() should
+    * cudaRaytraceCore() handles kernel launches and memory management
+    * raycastFromCameraKernel() handles camera raycasting. 
+    * raytraceRay() is the core raytracing CUDA kernel; raytraceRay() should
       take in a camera, image buffer, geometry, materials, and lights, and should
       trace a ray through the scene and write the resultant color to a pixel in the
       image buffer.
@@ -119,9 +134,7 @@ algorithm and image generation, are the following:
       sphereIntersectionTest().
     * getRandomPointOnSphere(), which takes in a sphere and returns a random
       point on the surface of the sphere with an even probability distribution.
-      This function should work in the same way as getRandomPointOnCube(). You can
-      (although do not necessarily have to) use this to generate points on a sphere
-      to use a point lights, or can use this for area lighting.
+      This function should work in the same way as getRandomPointOnCube().
 
 * interactions.h contains functions for ray-object interactions that define how
   rays behave upon hitting materials and objects. You will need to complete:
@@ -129,10 +142,83 @@ algorithm and image generation, are the following:
       sphere with a uniform probability. This function works in a fashion
       similar to that of calculateRandomDirectionInHemisphere(), which generates a
       random cosine-weighted direction in a hemisphere.
-    * calculateBSDF(), which takes in an incoming ray, normal, material, and
-      other information, and returns an outgoing ray. You can either implement
-      this function for ray-surface interactions, or you can replace it with your own
-      function(s).
 	  
 * sceneStructs.h, which contains definitions for how geometry, materials,
   lights, cameras, and animation frames are stored in the renderer.
+
+-------------------------------------------------------------------------------
+TAKUAscene FORMAT:
+-------------------------------------------------------------------------------
+This project uses a custom scene description format, called TAKUAscene.
+TAKUAscene files are flat text files that describe all geometry, materials,
+lights, cameras, render settings, and animation frames inside of the scene.
+Items in the format are delimited by new lines, and comments can be added at
+the end of each line preceded with a double-slash.
+
+Materials are defined in the following fashion:
+
+* MATERIAL (material ID)								//material header
+* RGB (float r) (float g) (float b)					//diffuse color
+* SPECX (float specx)									//specular exponent
+* SPECRGB (float r) (float g) (float b)				//specular color
+* REFL (bool refl)									//reflectivity flag, 0 for
+  no, 1 for yes
+* REFR (bool refr)									//refractivity flag, 0 for
+  no, 1 for yes
+* REFRIOR (float ior)									//index of refraction
+  for Fresnel effects
+* SCATTER (float scatter)								//scatter flag, 0 for
+  no, 1 for yes
+* ABSCOEFF (float r) (float b) (float g)				//absorption
+  coefficient for scattering
+* RSCTCOEFF (float rsctcoeff)							//reduced scattering
+  coefficient
+* EMITTANCE (float emittance)							//the emittance of the
+  material. Anything >0 makes the material a light source.
+
+Cameras are defined in the following fashion:
+
+* CAMERA 												//camera header
+* RES (float x) (float y)								//resolution
+* FOVY (float fovy)										//vertical field of
+  view half-angle. the horizonal angle is calculated from this and the
+  reslution
+* ITERATIONS (float interations)							//how many
+  iterations to refine the image, only relevant for supersampled antialiasing,
+  depth of field, area lights, and other distributed raytracing applications
+* FILE (string filename)									//file to output
+  render to upon completion
+* frame (frame number)									//start of a frame
+* EYE (float x) (float y) (float z)						//camera's position in
+  worldspace
+* VIEW (float x) (float y) (float z)						//camera's view
+  direction
+* UP (float x) (float y) (float z)						//camera's up vector
+
+Objects are defined in the following fashion:
+* OBJECT (object ID)										//object header
+* (cube OR sphere OR mesh)								//type of object, can
+  be either "cube", "sphere", or "mesh". Note that cubes and spheres are unit
+  sized and centered at the origin.
+* material (material ID)									//material to
+  assign this object
+* frame (frame number)									//start of a frame
+* TRANS (float transx) (float transy) (float transz)		//translation
+* ROTAT (float rotationx) (float rotationy) (float rotationz)		//rotation
+* SCALE (float scalex) (float scaley) (float scalez)		//scale
+
+An example TAKUAscene file setting up two frames inside of a Cornell Box can be
+found in the scenes/ directory.
+
+For meshes, note that the base code will only read in .obj files. For more 
+information on the .obj specification see http://en.wikipedia.org/wiki/Wavefront_.obj_file.
+
+An example of a mesh object is as follows:
+
+OBJECT 0
+mesh tetra.obj
+material 0
+frame 0
+TRANS       0 5 -5
+ROTAT       0 90 0
+SCALE       .01 10 10 
