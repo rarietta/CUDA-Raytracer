@@ -70,7 +70,21 @@ Addition of Basic Diffuse Shading with Point Lighting
 Addition of Hard Shadows with Point Lighting
 -------------------------------------------------------------------------------
 
+To adapt the illumination model to account for soft shadows and area lights,
+rather than unrealistic hard shadows and single point lights, I simply sampled
+the light source randomly over multiple iterations. For each iteration, a 
+shadow ray was cast to a randomly generated point on the cube (or sphere) light
+source geometry (using the required functions defined in the project assignment).
+A shadow ray was cast from the intersection point to this random light source,
+and a contibution of the luminance would be averaged into the pixel value for that
+iteration. If the shadow ray intersected geometry and thus could not see the light 
+point, no luminance contribution was added during that iteration. Thus, over time,
+the shadow term described above became a fractional value, rather than a simple zero
+or one.
 
+A rendered image with soft shadows is seen below. You can see that this result
+is much more physically based and realistic, accounting for the physical light
+source casting light rays in multiple directions towards/around the geometry.
 
 ![Flat Shading](https://raw.github.com/rarietta/Project1-RayTracer/master/PROJ1_WIN/565Raytracer/README_images/003_diffuse_illumination_with_hard_shadows.bmp)
 
